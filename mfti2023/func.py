@@ -4,6 +4,7 @@ from card import *
 from deck import *
 from hand import *
 from table import *
+import time as tm
 def main():
     pass
 
@@ -50,6 +51,8 @@ def ingame():
     global bot_hand
     global Tbl
     global hod
+    P_KARD_OUT = False
+    P_KARD_PICK = False
     if ingame_set == False:  #стартовые настройки игры
         screen.blit(g_field_img, (0, 0))
         screen.blit(card_img, (100, 100))
@@ -61,29 +64,40 @@ def ingame():
         ingame_set = True #В настройки больше не заходим
 
     for i in pg.event.get(): # Обработка нажатия
-        if i.type == pg.MOUSEBUTTONDOWN:
-            None
+        if i.type == pg.KEYDOWN:
+            if i.key == pg.K_SPACE:
+                P_KARD_PICK = True
+            if i.key == pg.K_m:
+                P_KARD_OUT = True
         if i.type == pg.QUIT:
             ingame_set = False
             exit()
     pl_hand.vskryvaemsa(1)
     bot_hand.vskryvaemsa(2)
     if hod == 0: # Ходы игроков по очереди. Потом допилить, вынести часть кода в обработчик событий чтоб карты доставались по нажатию, а не автоматически
-        Tbl.hod(0, pl_hand.quit())
-        hod = 1
+        if P_KARD_OUT:
+            Tbl.hod(0, pl_hand.quit())
+            hod = 1
     elif hod == 1:
+        tm.sleep(2)
         Tbl.hod(1, bot_hand.quit())
         hod = 0
     Tbl.show()
+
     if len(Tbl.stp2) >= 1 and len(Tbl.stp1) >= 1: #переделать под нажатие кнопок и таймер
+
         print(Tbl.stp1[-1], Tbl.stp2[-1], Tbl.stp1[-1].five(Tbl.stp2[-1]), Tbl.sumfive())
         if Tbl.sumfive():
-            if hod == 1:
-                pl_hand.into(Tbl.ret())
-                print("--------------------------------------------------------------FIVE, PLAYER --------------------------------------------------------------")
-            elif hod == 0:
-                bot_hand.into(Tbl.ret())
-                print("-----------------------------------------------------------------FIVE, BOT -----------------------------------------------------------------")
+            ntime = tm.clock()
+            while(1):
+                ttime = tm.clock()
+                if ttime-ntime >= 2:
+                    bot_hand.into(Tbl.ret())
+                    print("-----------------------------------------------------------------FIVE, BOT -----------------------------------------------------------------")
+
+                if P_KARD_PICK:
+                    pl_hand.into(Tbl.ret())
+                    print("--------------------------------------------------------------FIVE, PLAYER --------------------------------------------------------------")
 
     print("----------------------------------------")
 
