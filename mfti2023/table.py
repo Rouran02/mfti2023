@@ -19,6 +19,23 @@ class Table:
         else:
             return 0
 
+    def getlast(self, number):
+        if len(self.stp1) > 0:
+            j1 = -1
+        else:
+            j1 = None
+        if len(self.stp2) > 0:
+            j2 = -1
+        else:
+            j2 = None
+
+        if number:
+
+            return self.stp1[j1] if j1 is not None else None
+        else:
+            return self.stp2[j2] if j2 is not None else None
+
+
     def show(self):            # показывает все карты на столе
         print("stp1  = ", self.stp1)
         print("stp2  = ", self.stp2)

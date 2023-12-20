@@ -1,5 +1,5 @@
 import random
-from card import *
+from card import Card
 
 class Deck:
     """ Колода карт"""
@@ -11,13 +11,15 @@ class Deck:
         else:
             raise Exception('Передана пустая колода')
             #print('Передана пустая колода')
-    def print_deck(self):
-        print(self.cards)
-    def shake(self): #перемешивание колоды
+
+    def __repr__(self):
+        return repr(self.cards)
+
+    def shuffle(self): #перемешивание колоды
         random.shuffle(self.cards)
 
     def give(self, number):      #Раздает карты из колоды n игрокам. Реализовано - 2м. Можно расширить
-        self.shake()       #перемешивает перед раздачей
+        self.shuffle()       #перемешивает перед раздачей
         #print(self.cards)
         if number == 2:
             giv = len(self.cards)//2

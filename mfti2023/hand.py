@@ -10,8 +10,8 @@ class hand:
             raise ValueError("Передана пустая колода")
             None
 
-    def vskryvaemsa(self, i):  # Показывает карты игрока
-        print(f"Карты игрока {i}", self.cards)
+    def __repr__(self):  # Показывает карты игрока
+        print(len(self.cards))
 
     def quit(self):  # Выбросить карту    Проверить на удаление из массива self.cards
         if len(self.cards) > 0:
@@ -21,5 +21,11 @@ class hand:
             raise ValueError("Конец ИГРЫ")
             #print()  # --------------------------------------------------------
 
-    def into(self, arr):  # принимает массив карт   Проверка. ВОТ ТУТ ОШИБКА
-        self.cards += arr
+    def into(self, arr):  # принимает массив карт
+        for i in arr:
+            self.cards.insert(0, i)
+
+    def endgame(self):
+        if len(self.cards) == 0:
+            return 0
+        return 2

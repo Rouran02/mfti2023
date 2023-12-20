@@ -12,7 +12,7 @@ class Card:
         else:
             raise ValueError(f'Wrong fruit {fruit}')
 
-        if 1 <= number <= 5:  # Если номер в нормальных пределах
+        if number in Card.NUMBERS:  # Если номер в нормальных пределах
             self.number = number
         else:
             raise ValueError(f'Wrong number {number}')
@@ -31,10 +31,7 @@ class Card:
         return Card(letter, number)
 
     def five(self, other):  # Проверяем, дают ли 2 карты одного номинала 5
-        if (other.number + self.number == 5) and (other.fruit == self.fruit):
-            return 1
-        else:
-            return 0
+        return (other.number + self.number == 5) and (other.fruit == self.fruit) or ((self.number == 5 and other.number != 5) and (self.fruit != other.fruit)) or ((self.number != 5 and other.number == 5) and (self.fruit != other.fruit)) or ((self.number == 5 and other.number == 5) and (self.fruit != other.fruit))
 
     def create_d(self, cards=[]):
         if len(cards) == 0:
